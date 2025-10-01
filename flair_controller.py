@@ -24,14 +24,24 @@ class FlairController:
         self.logger = logging.getLogger(__name__)
 
     def _load_config(self, config_file: str) -> Dict:
+        # Check if FLAIR_CONFIG environment variable is set
+        flair_config_env = os.environ.get('FLAIR_CONFIG')
+        if flair_config_env:
+            try:
+                return json.loads(flair_config_env)
+            except json.JSONDecodeError:
+                logging.error("Invalid JSON in FLAIR_CONFIG environment variable")
+                return {}
+
+        # Fall back to config file
         try:
             with open(config_file, 'r') as f:
                 return json.load(f)
         except FileNotFoundError:
-            self.logger.error(f"Config file {config_file} not found")
+            logging.error(f"Config file {config_file} not found")
             return {}
         except json.JSONDecodeError:
-            self.logger.error(f"Invalid JSON in config file {config_file}")
+            logging.error(f"Invalid JSON in config file {config_file}")
             return {}
 
     def _ensure_client(self) -> bool:
