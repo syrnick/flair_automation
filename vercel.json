@@ -1,14 +1,24 @@
 {
-      "builds": [
+    "builds": [
         {
-          "src": "cron/index.py", 
-          "use": "@vercel/python"
+            "src": "cron/index.py",
+            "use": "@vercel/python"
         }
-      ],
-      "routes": [
+    ],
+    "routes": [
         {
-          "src": "/cron/(.*)",
-          "dest": "cron/index.py" 
+            "src": "/cron/(.*)",
+            "dest": "cron/index.py"
         }
-      ]
-    }
+    ],
+    "crons": [
+        {
+            "path": "/cron",
+            "schedule": "0 05 * * *"
+        },
+        {
+            "path": "/cron",
+            "schedule": "0 14 * * *"
+        }
+    ]
+}
