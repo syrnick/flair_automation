@@ -38,18 +38,25 @@ class handler(BaseHTTPRequestHandler):
         qsecret_param = query_params.get('QSECRET', [None])[0]
         qsecret_env = os.environ.get('QSECRET')
 
+        # Get Authorization header
+        auth_header = self.headers.get('Authorization')
+        cron_secret = os.environ.get('CRON_SECRET')
+
         self.send_response(200)
         self.send_header('Content-type','text/plain')
         self.end_headers()
 
-        # Check if secrets match
-        if qsecret_param and qsecret_env and qsecret_param == qsecret_env:
-            # Secrets match - run cron
+        # Check if either authentication method matches
+        qsecret_valid = qsecret_param and qsecret_env and qsecret_param == qsecret_env
+        auth_header_valid = auth_header and cron_secret and auth_header == f"Bearer {cron_secret}"
+
+        if qsecret_valid or auth_header_valid:
+            # Authentication successful - run cron
             status = runCron()
             response = f"Status: {status}"
             self.wfile.write(response.encode('utf-8'))
         else:
-            # Secrets don't match - return default response
+            # Authentication failed - return default response
             self.wfile.write('Hello, world!'.encode('utf-8'))
 
         return
