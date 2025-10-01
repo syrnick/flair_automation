@@ -1,0 +1,39 @@
+{
+  "api_base_url": "https://api.flair.co/",
+  "client_id": "oauth 1 client id",
+  "client_secret": "oauth 1 client secret",
+  "rooms": { 
+    "master_bedroom": {
+      "id": "182400",
+      "name": "Master Bedroom"
+    },
+    "alex_office": {
+      "id": "181999",
+      "name": "Alex Office"
+    },
+    "kitchen": {
+      "id": "room_22222",
+      "name": "Kitchen"
+    }
+  },
+  "schedule": [
+    {
+      "segmentName": "night",
+      "from":"22:00",
+      "to": "07:00",
+      "roomState": {
+        "alex_office": "inactive",
+        "master_bedroom": "inactive"
+      }
+    },
+    {
+      "segmentName": "day",
+      "from":"07:00",
+      "to": "22:00",
+      "roomState": {
+        "alex_office": "active",
+        "master_bedroom": "active"
+      }
+    }
+  ]
+}
