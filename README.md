@@ -1,6 +1,7 @@
 # WARNING !!!
 
 AI - generated code.
+All with Claude Code.
 
 My main focus was the schedule command. Everything else may not work.
 
