@@ -1,7 +1,5 @@
 {
   "api_base_url": "https://api.flair.co/",
-  "client_id": "oauth 1 client id",
-  "client_secret": "oauth 1 client secret",
   "rooms": { 
     "master_bedroom": {
       "id": "182400",

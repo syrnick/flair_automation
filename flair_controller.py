@@ -2,14 +2,15 @@ import json
 from datetime import datetime, time
 from typing import Dict, List, Optional
 import logging
+import os
 from flair_api import make_client
 
 class FlairController:
     def __init__(self, config_file: str = "flair_config.json"):
         self.config = self._load_config(config_file)
         self.api_base_url = self.config.get("api_base_url", "https://api.flair.co/")
-        self.client_id = self.config.get("client_id")
-        self.client_secret = self.config.get("client_secret")
+        self.client_id = os.environ.get("FLAIR_CLIENT_ID")
+        self.client_secret = os.environ.get("FLAIR_CLIENT_SECRET")
         self.rooms = self.config.get("rooms", {})
         self.schedule = self.config.get("schedule", [])
 
