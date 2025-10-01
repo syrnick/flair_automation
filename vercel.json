@@ -1,0 +1,14 @@
+{
+      "builds": [
+        {
+          "src": "cron/index.py", // Or your main application file
+          "use": "@vercel/python"
+        }
+      ],
+      "routes": [
+        {
+          "src": "/cron/(.*)",
+          "dest": "cron/index.py" // Or your main application file
+        }
+      ]
+    }
