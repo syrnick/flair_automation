@@ -1,11 +1,31 @@
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 import os
+import sys
+
+# Add parent directory to path to import flair_controller
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from flair_controller import FlairController
 
 def runCron():
     """Execute the cron job and return status."""
-    # TODO: Implement cron logic
-    return {"status": "success", "message": "Cron executed successfully"}
+    try:
+        controller = FlairController()
+        results = controller.apply_schedule()
+
+        if not results:
+            return {"status": "no_action", "message": "No schedule applied (no active segment or schedule not configured)"}
+
+        success_count = sum(1 for r in results.values() if r['success'])
+        total_count = len(results)
+
+        return {
+            "status": "success" if success_count == total_count else "partial_success",
+            "message": f"Schedule applied: {success_count}/{total_count} rooms processed successfully",
+            "results": results
+        }
+    except Exception as e:
+        return {"status": "error", "message": f"Error executing cron: {str(e)}"}
 
 class handler(BaseHTTPRequestHandler):
 
